@@ -1,0 +1,307 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600&display=swap');    
+
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+body{
+    background: #312747;
+    background: #e6e7ee;;
+}
+header{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 40px 100px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 10;
+}
+header .logo{
+    position: relative;
+    color: #111111;
+    font-size:1rem;
+    text-decoration: none;
+    box-shadow: 3px 3px 6px #b8b9be, -3px -3px 6px #ffffff;
+    padding: 0.50rem 0.90rem; 
+    border-radius: 10px;
+}
+header .list{
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+header .list li{
+    position: relative;
+    list-style-type: none;
+}
+header .list li a{
+    margin: 1rem;
+    color: #111111;
+    text-decoration: none;
+    display: inline-block;
+    padding: 0.50rem 0.90rem; 
+    border-radius: 20px;
+    box-shadow: inset 2px 2px 5px #b8b9be, inset -3px -3px 7px #FFFFFF;
+}
+header .list li a:hover{
+    box-shadow: 3px 3px 6px #b8b9be, -3px -3px 6px #ffffff;
+    color: #1f348a;
+}
+header .logo:hover{
+    background-color: #e6e7ee;
+    border-color: #e6e7ee;
+    color: #1f348a;
+    box-shadow: inset 2px 2px 5px #b8b9be, inset -3px -3px 7px #FFFFFF;
+}
+header nav{
+    position: relative;
+}
+header nav ul{
+    position: relative;
+    display: flex;
+}
+header nav ul li{
+    list-style: none;
+}
+header nav ul li a{
+    text-decoration: none;
+    position: relative;
+    transition: all 0.2s ease;
+    letter-spacing: 0.025em;
+    font-size: 1rem;
+    border-color: #D1D9E6;
+    box-shadow: 3px 3px 6px #b8b9be, -3px -3px 6px #ffffff;
+    padding: 0.55rem 0.95rem;
+    border-radius: 20px;
+    transition: all .3s;
+    display: flex;
+}
+.icons{
+    padding: .5rem;
+}
+header nav ul li a:hover{
+    background-color: #e6e7ee;
+    border-color: #e6e7ee;
+    color: #1f348a;
+    box-shadow: inset 2px 2px 5px #b8b9be, inset -3px -3px 7px #FFFFFF;
+}
+section{
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 100vh;
+    padding: 0 100px;
+}
+section .contentBx{
+    position: relative;
+    max-width: 100%;
+    z-index: 1000;
+}
+section .contentBx h2{
+    font-size: 3.5rem;
+    font-weight: 400;
+    color:#44476A;
+}
+section .contentBx p{
+   font-size: 1.25rem;
+    line-height: 1.6;
+    font-weight: lighter;
+    color: #44476A;
+}
+section .contentBx p strong{
+    font-weight: 500;
+}
+section .contentBx a{
+    position: relative;
+    margin-top: 40px;
+    display: inline-block;
+    background: #ffffff;
+    color: #44476A;
+    font-size: 1rem;
+    letter-spacing: 2px;
+    padding: 10px 28px;
+    box-shadow: 
+    12px 12px 16px 0 rgba(0, 0, 0, 0.25),
+    -8px -8px 12px 0 rgba(255, 255, 255, 0.3);
+    padding: 10px;
+    border-radius: 20px;
+    text-decoration: none;
+    border-radius: 10px;
+}
+section .contentBx a:hover{
+    background-color: #e6e7ee;
+    border-color: #e6e7ee;
+    color: #1f348a;
+    box-shadow: inset 2px 2px 5px #b8b9be, inset -3px -3px 7px #FFFFFF;
+}
+section .imgBx img{
+    position: relative;
+    max-width: 500px;
+    width: 100%;
+    margin-top: 100px;
+    z-index: 2;
+    pointer-events: none;
+    box-shadow: 
+    12px 12px 16px 0 rgba(0, 0, 0, 0.25),
+    -8px -8px 12px 0 rgba(255, 255, 255, 0.3);
+    border-radius: 50px;
+}
+section .imgBx img:hover{
+    background-color: #e6e7ee;
+    border-color: #e6e7ee;
+    box-shadow: inset 2px 2px 5px #b8b9be, inset -3px -3px 7px #FFFFFF; 
+}
+section .icon{
+    position: absolute;
+    bottom: 40px;
+    left: 100px;
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+section .icon li{
+    list-style: none;
+    display: inline-block;
+    margin-right: 1.0rem;
+}
+section .icon li a{
+    display: block;
+    line-height: 40px;
+    position: relative;
+    font-size: 20px;
+    background: #fff;
+    height: 40px;
+    width: 40px;
+    border-radius: 30px;
+    transition: all 200ms;
+    box-shadow: 0px 5px 6px rgba(0, 0, 0, 0.24);
+}
+section .icon li:nth-child(1) a:hover i{
+    color:#ff0e45;
+}
+section .icon li:nth-child(2) a:hover i{
+    color:#20c4f7;
+}
+section .icon li:nth-child(3) a:hover i{
+    color:#8a3ab9;
+}
+section .icon li a:after {
+    position: absolute;
+    width: 48px;
+    height: 48px;
+    top: -4px;
+    left: -4px;
+    content: '';
+    display: block;
+    border-radius: 40px;
+    background: #44476A;;
+    z-index: -2;
+    box-shadow:
+    0px 0px 5px rgba(0, 0, 0, 0.14)
+}   
+.wave{
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    z-index: 1;
+    filter: opacity(0.2);
+}
+
+
+
+
+@media (max-width: 991px)
+{
+    section
+    {
+        flex-direction: column;
+        padding-top: 150px;
+        height: auto;
+    }
+    section .contentBx
+    {
+        max-width: 100%;
+        top: 60px;
+    }
+    section .imgBx img
+    {
+        margin-top: 0;
+    }
+    
+}
+
+@media (max-width: 767px)
+{
+    header
+    {
+        padding: 20px 50px;
+    }
+    section
+    {
+        flex-direction: column;
+        padding: 120px 50px 100px;
+        height: auto;
+    }
+    section .contentBx h2
+    {
+        font-size: 40px;
+    }
+    section .contentBx p
+    {
+        font-size: 16px;
+    }
+
+    section .contentBx a
+    {
+        position: relative;
+        margin-top: 25px;
+        display: inline-block;
+        background-image: #e6e7ee;
+        color: #c7c7c;
+        letter-spacing: 2px;
+        padding: 10px 25px;
+        text-decoration: none;
+        border-radius: 40px;
+    }
+    
+    section .contentBx a:after 
+    {
+        padding: 38px 129px;
+    }
+    
+    section .sci
+    {
+        left: 70px;
+    }
+
+}
+@media (max-width: 320px)
+{
+    header 
+    {
+    padding: 20px 26px;
+   }
+   section {
+    flex-direction: column;
+    padding: 121px 34px 111px;
+    }
+    header .logo 
+    {
+        font-size: 21px;
+    }
+    header nav ul li a
+    {
+        font-size: 14px;
+    }
+}
+
+

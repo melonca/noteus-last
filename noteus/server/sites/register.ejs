@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="register.css" />
+    <script src="https://cdn.jsdelivr.net/npm/simple-notify@0.5.4/dist/simple-notify.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simple-notify@0.5.4/dist/simple-notify.min.css" />
+</head>
+
+<body>
+    <div class="box">
+        <form action="/POST/register" method="POST">
+            <label for="user_name">Username</label></br>
+            <input id="text" type="text" name="user_name" class="input-box" placeholder="Enter Username"><br>
+            </br>
+            <label for="password">Password</label></br>
+            <input id="text" type="password" name="password" class="input-box" placeholder="Enter Password"><br>
+            <label for="email">E-mail</label></br>
+            <input id="text" type="email" name="email" class="input-box" placeholder="Enter your e-mail"><br>
+            <div class="forget">
+                <label class="checkbox-label">
+                    <input type="checkbox">
+                    <span class="checkbox-custom "></span>
+                    <span class="label-text">Remember me</span>
+                </label>
+                <span class="fg">
+                    <a href="/login"> Forgot password?</a>
+                </span>
+            </div>
+            <input id="button" type="submit" value="Signup" class="btn"><br>
+        </form>
+        <span class="option">or sign in with</span>
+        <div class="social">
+            <div class="box-radius">
+                <img src="images/fb.png" alt="">
+            </div>
+            <div class="box-radius">
+                <img src="images/google.png" alt="">
+            </div>
+            <div class="box-radius">
+                <img src="images/linkedin.png" alt="">
+            </div>
+            <div class="box-radius">
+                <img src="images/twitter.png" alt="">
+            </div>
+        </div>
+    </div>
+    <script>
+        function pushNotify1() {
+            new Notify({
+                status: 'warning',
+                title: 'E-mail already in use!',
+                text: 'Please use a different e-mail.',
+                effect: 'fade',
+                speed: 300,
+                customClass: null,
+                customIcon: null,
+                showIcon: true,
+                showCloseButton: true,
+                autoclose: false,
+                autotimeout: 4000,
+                gap: 20,
+                distance: 20,
+                type: 1,
+                position: 'right top'
+            })
+        }
+        function pushNotify2() {
+            new Notify({
+                status: 'warning',
+                title: 'Some fields empty!',
+                text: 'Please fill in the form.',
+                effect: 'fade',
+                speed: 300,
+                customClass: null,
+                customIcon: null,
+                showIcon: true,
+                showCloseButton: true,
+                autoclose: false,
+                autotimeout: 4000,
+                gap: 20,
+                distance: 20,
+                type: 1,
+                position: 'right top'
+            })
+        }
+        function pushNotify3() {
+            new Notify({
+                status: 'warning',
+                title: 'Username already in use!',
+                text: 'Please use a different username.',
+                effect: 'fade',
+                speed: 300,
+                customClass: null,
+                customIcon: null,
+                showIcon: true,
+                showCloseButton: true,
+                autoclose: false,
+                autotimeout: 4000,
+                gap: 20,
+                distance: 20,
+                type: 1,
+                position: 'right top'
+            })
+        }
+    </script>
+</body>
+
+</html>

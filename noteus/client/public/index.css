@@ -1,0 +1,506 @@
+/*=============== GOOGLE FONTS ===============*/
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap");
+
+/*=============== VARIABLES CSS ===============*/
+:root {
+  /*========== Colors ==========*/
+  --hue-color: 240;
+
+  --first-color: hsl(var(--hue-color), 53%, 49%);
+  --title-color: hsl(var(--hue-color), 53%, 15%);
+  --text-color: hsl(var(--hue-color), 12%, 35%);
+  --text-color-light: hsl(var(--hue-color), 12%, 65%);
+  --white-color: #FFF;
+  --body-color: hsl(var(--hue-color), 24%, 94%);
+
+  /*========== Font and typography ==========*/
+  --body-font: 'Poppins', sans-serif;
+  --biggest-font-size: 3rem;
+  --small-font-size: .813rem;
+  --smaller-font-size: .75rem;
+  --tiny-font-size: .625rem;
+
+  /*========== Font weight ==========*/
+  --font-medium: 500;
+
+  /*========== Margenes Bottom ==========*/
+  --mb-0-25: .25rem;
+  --mb-1: 1rem;
+  --mb-1-5: 1.5rem;
+  --mb-2-5: 2.5rem;
+
+  /*========== z index ==========*/
+  --z-normal: 1;
+  --z-tooltip: 10;
+}
+
+@media screen and (min-width: 968px) {
+  :root {
+    --biggest-font-size: 3.5rem;
+    --small-font-size: .875rem;
+    --smaller-font-size: .813rem;
+    --tiny-font-size: .75rem;
+  }
+}
+
+/*========== Variables Dark theme ==========*/
+body.dark-theme {
+  --title-color: hsl(var(--hue-color), 12%, 95%);
+  --text-color: hsl(var(--hue-color), 12%, 75%);
+  --body-color: hsl(var(--hue-color), 10%, 16%);
+}
+
+/*========== Button Dark/Light ==========*/
+.clock__theme {
+  position: absolute;
+  top: -1rem;
+  right: -1rem;
+  display: flex;
+  padding: .25rem;
+  border-radius: 50%;
+  box-shadow: inset -1px -1px 1px hsla(var(--hue-color), 0%, 100%, 1), 
+              inset 1px 1px 1px hsla(var(--hue-color), 30%, 86%, 1);
+  color: var(--first-color);
+  cursor: pointer;
+  transition: .4s; 
+  width: 20px;
+  height: 20px;
+}
+
+/*========== Box shadow Dark theme ==========*/
+.dark-theme .clock__circle {
+  box-shadow: 6px 6px 16px hsla(var(--hue-color), 8%, 12%, 1), 
+              -6px -6px 16px hsla(var(--hue-color), 8%, 20%, 1), 
+              inset -6px -6px 16px hsla(var(--hue-color), 8%, 20%, 1), 
+              inset 6px 6px 12px hsla(var(--hue-color), 8%, 12%, 1);
+}
+
+.dark-theme .clock__theme {
+  box-shadow: inset -1px -1px 1px hsla(var(--hue-color), 8%, 20%, 1), 
+              inset 1px 1px 1px hsla(var(--hue-color), 8%, 12%, 1);
+}
+
+/*=============== BASE ===============*/
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  margin: 0;
+  font-family: var(--body-font);
+  background-color: var(--body-color);
+  color: var(--text-color);
+  transition: .4s; 
+}
+
+a {
+  text-decoration: none;
+}
+
+/*=============== REUSABLE CSS CLASSES ===============*/
+
+
+
+
+/*=============== CLOCK ===============*/
+.clock.container{
+  height: max-content;
+  width: max-content;
+}
+.clock__container {
+  height:  max-content;
+  width: max-content;
+  justify-content: center;
+  align-content: center;
+}
+
+.clock__circle {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  box-shadow: -6px -6px 16px var(--white-color), 
+              6px 6px 16px hsla(var(--hue-color), 30%, 86%, 1), 
+              inset 6px 6px 16px hsla(var(--hue-color), 30%, 86%, 1), 
+              inset -6px -6px 16px var(--white-color);
+  border-radius: 50%;
+  justify-self: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: .4s; 
+}
+
+.clock__content {
+  align-self: center;
+  row-gap: 3.5rem;
+}
+
+.clock__twelve, 
+.clock__three, 
+.clock__six, 
+.clock__nine {
+  position: absolute;
+  width: 1rem;
+  height: 1px;
+  background-color: var(--text-color-light);
+}
+
+.clock__twelve, 
+.clock__six {
+  transform: translateX(-50%) rotate(90deg);
+}
+
+.clock__twelve {
+  top: 1.25rem;
+  left: 50%;
+}
+
+.clock__three {
+  top: 50%;
+  right: .75rem;
+}
+
+.clock__six {
+  bottom: 1.25rem;
+  left: 50%;
+}
+
+.clock__nine {
+  left: .75rem;
+  top: 50%;
+}
+
+.clock__rounder {
+  width: .75rem;
+  height: .75rem;
+  background-color: var(--first-color);
+  border-radius: 50%;
+  border: 2px solid var(--body-color);
+  z-index: var(--z-tooltip);
+}
+
+.clock__hour, 
+.clock__minutes, 
+.clock__seconds {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+}
+
+.clock__hour {
+  width: 105px;
+  height: 105px;
+}
+
+.clock__hour::before {
+  content: '';
+  position: absolute;
+  background-color: var(--text-color);
+  width: .25rem;
+  height: 3rem;
+  border-radius: .75rem;
+  z-index: var(--z-normal);
+}
+
+.clock__minutes {
+  width: 136px;
+  height: 136px;
+}
+
+.clock__minutes::before {
+  content: '';
+  position: absolute;
+  background-color: var(--text-color);
+  width: .25rem;
+  height: 4rem;
+  border-radius: .75rem;
+  z-index: var(--z-normal);
+}
+
+.clock__seconds {
+  width: 130px;
+  height: 130px;
+}
+
+.clock__seconds::before {
+  content: '';
+  position: absolute;
+  background-color: var(--first-color);
+  width: .125rem;
+  height: 5rem;
+  border-radius: .75rem;
+  z-index: var(--z-normal);
+}
+
+.clock__logo {
+  width: max-content;
+  justify-self: center;
+  margin-bottom: var(--mb-2-5);
+  font-size: var(--smaller-font-size);
+  font-weight: var(--font-medium);
+  color: var(--text-color-light);
+  transition: .3s;
+}
+
+.clock__logo:hover {
+  color: var(--first-color);
+}
+
+.clock__text {
+  display: flex;
+  justify-content: center;
+}
+
+.clock__text-hour, 
+.clock__text-minutes {
+  font-size: var(--biggest-font-size);
+  font-weight: var(--font-medium);
+  color: var(--title-color);
+}
+
+.clock__text-ampm {
+  font-size: var(--tiny-font-size);
+  color: var(--title-color);
+  font-weight: var(--font-medium);
+  margin-left: var(--mb-0-25);
+}
+
+.clock__date {
+  text-align: center;
+  font-size: var(--small-font-size);
+  font-weight: var(--font-medium);
+}
+
+/*=============== MEDIA QUERIES ===============*/
+/* For large devices */
+
+
+
+
+
+h1{
+  font-size:1.2em;
+  text-align:center;
+}
+
+.panel{
+  box-shadow: -8px -8px 8px #feffff, 8px 8px 8px #161b1d2f;
+  padding:1em;
+  width:92.5%;
+  margin:auto;
+  max-width:30em;
+}
+
+input{
+  width:100%;
+  box-sizing:border-box;
+  font-size:1em;
+  margin-top:0.5em;
+  padding:0.5em;
+}
+
+input:focus{
+  outline:none;
+}
+
+input::after{
+  width:100%;
+  height:10px;
+  background:red;
+}
+.nav-list{
+  width:92.5%;
+  max-width:30em;
+  text-align:center;
+  margin:auto;
+}
+  li{
+  list-style:none;
+  box-shadow: -8px -8px 8px #feffff, 8px 8px 8px #161b1d2f;
+  display:inline-block;
+    background:rgba(256,256,256,0.5);
+    padding:0.7em;
+    margin:0 0.1em;
+  }
+  li.active{
+    background-color:rgba(256,256,256,0.95);
+  }
+
+
+
+.logoutbtn{
+  height: 69px;
+  background-color: #F1F4FF;
+  border-radius: 10px;
+  font-size: 2rem;
+  color: #464646;
+  border: none;
+  cursor: pointer;
+  box-shadow: -3px -3px 6px rgba(255,255,255,0.9), 3px 3px 5px rgba(0,0,0,0.3);
+  padding: 0.3em;
+}
+.logininfo{
+  font-size: 1.5em;
+}
+.container {
+    display: grid;
+    grid-template-columns: calc(33.333333% - 1rem) calc(33.333333% - 1rem) calc(33.333333% - 1rem);
+    grid-template-rows: calc(33.333333% - 1rem) calc(33.333333% - 1rem) calc(33.333333% - 1rem);
+    grid-gap: 1rem;
+    width: 100vw;
+    height: 100vh;
+    margin: auto;
+    align-content: center;
+    justify-content: center;
+    box-shadow: -8px -8px 8px #feffff, 8px 8px 8px #161b1d2f;
+  }
+ .column{
+   display: inherit;
+   transition: 0.1s;
+   height: inherit;
+   grid-gap: inherit;
+   padding-top: 25px;
+   box-shadow: inset 5px 5px 5px #cbced1, inset -5px -5px 5px #ffffff;
+   border-radius: 1em;
+ }
+  body {
+    background-color: #c7c7c7;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    padding: 0;
+    max-width: 100vw;
+    max-height: 100vh;
+  }
+  
+  .item {
+    background-color: #ecf0f3;
+    background-size: auto;
+    background-size: cover;
+    color: black;
+    align-content: center;
+    justify-content: center;
+    border-radius: 1em;
+    box-shadow: -8px -8px 8px #feffff, 8px 8px 8px #161b1d2f;
+    display: grid;
+  }
+  #weather-container{
+    display: inherit;
+    height: auto;
+    width: auto;
+    box-shadow: -8px -8px 8px #feffff, 8px 8px 8px #161b1d2f;
+    font-size: 1.2em;
+  }
+  .icon{
+  display: flex;
+    justify-self: center;
+  }
+  .weather{
+    display: flex;
+    justify-self: center;
+  }
+  .temp{
+    display: flex;
+    justify-self: center;
+  }
+  #app {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 200px);
+    padding: 16px; 
+    gap: 24px;
+  }
+  
+  .note {
+    height: 200px;
+    box-sizing: border-box;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 0 7px rgba(0, 0, 0, 0.15);
+    resize: none;
+    font-family: sans-serif;
+    font-size: 16px;
+    padding: 1em;
+  }
+  
+  .add-note {
+    height: 200px;
+    border: none;
+    outline: none;
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    font-size: 120px;
+    color: rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+    transition: 0.2s;
+  }
+  
+  .add-note:hover {
+    background: rgba(0, 0, 0, 0.2);
+  }
+  html {
+    font-size: 65%;
+    box-sizing: border-box;
+  }
+  
+  
+  
+  .calculator {
+    border: .8px solid #ccc;
+    border-radius: 5px;
+    background-color: #F1F4FF;
+    position: relative;
+    padding: 2rem;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+  }
+  
+  #calculator-screen {
+    width: 100%;
+    font-size: 5rem;
+    height: 100px;
+    border: none;
+    background-color: #F1F4FF;
+    color: #464646;  
+    text-align: right;
+    padding-right: 20px;
+    padding-left: 10px;
+    border-radius: 10px;
+    box-shadow: -3px -3px 6px rgba(255,255,255,0.9), 3px 3px 6px rgba(0,0,0,0.3);
+  }
+  
+  button {
+    height: 69px;
+    background-color: #F1F4FF;
+    border-radius: 10px;
+    font-size: 2rem;
+    color: #464646;
+    border: none;
+    cursor: pointer;
+    box-shadow: -3px -3px 6px rgba(255,255,255,0.9), 3px 3px 5px rgba(0,0,0,0.3);
+  }
+  
+  button:focus{
+      outline: none;
+  }
+  button:hover {
+    background-color: #fff;
+    box-shadow: -3px -3px 6px  #f1e7e7, 3px 3px 5px #f1e7e7;
+  }
+  
+  .equal-sign {
+    height: 100%;
+    grid-area: 4 / 4 / 6 / 5;
+  }
+  
+  .calculator-keys {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 20px;
+    padding: 30px 0 0 0;
+  }

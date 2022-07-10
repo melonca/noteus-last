@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Noteus</title>
+
+    <link rel="stylesheet" type="text/css" href="index.css" />
+
+</head>
+
+<body>
+    <div class="container" id="sortable">
+        <div class="column1 column">
+            <div class="item1 item">
+                <div id="navigation" action="#">
+                    <ul class="nav-list">
+                        <li id="js-show-all">Show all Contacts</li>
+                        <li id="js-search">Search</li>
+                        <li id="js-add-new">Add New Contact</li>
+                    </ul>
+                </div>
+                <div id="search-panel" class="panel">
+                    <h1>Search Contacts</h1>
+                    <form id="search" action="get">
+                        <div id="results">
+
+                        </div>
+                        <div>
+                            <label>
+                                <input type="text" name="search" id="search" placeholder="Enter name of contact" />
+                            </label>
+                        </div>
+                        <input type="submit" value="Submit" />
+                    </form>
+                </div>
+                <div id="contact-panel" class="panel">
+                    <form id="contact" method="">
+                        <h1>Add a new contact</h1>
+                        <div>
+                            <label>
+                                <input type="text" name="person" id="name" placeholder="John Smith" />
+                            </label>
+                            <label>
+                                <input type="text" name="phone" id="name" placeholder="1234567" />
+                            </label>
+                            <label>
+                                <input type="text" name="email" id="name" placeholder="john@example.com" />
+                            </label>
+                        </div>
+                        <div>
+                            <input type="submit" value="Submit" method="post" />
+                        </div>
+                    </form>
+                </div>
+                <div id="show-panel" class="panel">
+
+                </div>
+            </div>
+        </div>
+        <div class="column2 column">
+            <div class="item4 item">
+                <div class="logininfo">
+                    Logged in user:<div class="user">
+                        <%if(locals.uName){%>
+                            <%= uName %>
+                                <%}%>
+                    </div>
+                    <br>
+                    <a class="logoutbtn" href="/logout">Logout</a>
+                </div>
+            </div>
+            <div class="item5 item" id="weather-container">
+                <div class="logininfo">Current weather in Ljubljana:</div>
+                <img class="icon">
+                <div class="weather"></div>
+                <div class="temp"></div>
+
+            </div>
+            <div class="item6 item">
+                <section class="clock container">
+                    <div class="clock__container grid">
+                        <div class="clock__content grid">
+                            <div class="clock__circle">
+                                <span class="clock__twelve"></span>
+                                <span class="clock__three"></span>
+                                <span class="clock__six"></span>
+                                <span class="clock__nine"></span>
+                                <div class="clock__rounder"></div>
+                                <div class="clock__hour" id="clock-hour"></div>
+                                <div class="clock__minutes" id="clock-minutes"></div>
+                                <div class="clock__seconds" id="clock-seconds"></div>
+                                <!-- Dark/light button -->
+                                <div class="clock__theme">
+                                    <i class='bx bxs-moon' id="theme-button"></i>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="clock__text">
+                                    <div class="clock__text-hour" id="text-hour"></div>
+                                    <div class="clock__text-minutes" id="text-minutes"></div>
+                                    <div class="clock__text-ampm" id="text-ampm"></div>
+                                </div>
+                                <div class="clock__date">
+                                    <!-- <span id="date-day-week"></span> -->
+                                    <span id="date-day"></span>
+                                    <span id="date-month"></span>
+                                    <span id="date-year"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+        <div class="column3 column">
+            <div name="note" class="item7 item" id="app" method="get">
+                <button class="add-note" type="button" method="post">+</button>
+            </div>
+
+
+            <script type="text/javascript"
+                src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+            <script>
+
+                function getContacts() {
+                    //return JSON.parse(localStorage.getItem("stickynotes-notes") || "[]");
+                    fetch("/GET/contacts")
+                        .then(response => response.json())
+                        .catch((err) => {
+                            // ce je error
+                        })
+                        .then(results => {
+                            if (results.length > 0) {
+                            for (var i = 0; i < results.length; i++) {
+                                document.getElementById('show-panel').innerHTML += '<div class="contact-item">Name:' + results[i].name + '<br>Phone:' + results[i].phone + '<br>Email:' + results[i].email + '</div><hr>';
+                            }
+                            } else {
+                            document.getElementById('show-panel').innerHTML += '<div class="contact-item">There are no results for this name</div><hr>';
+                            document.getElementById('search-panel').style.display = 'none';
+                            document.getElementById('contact-panel').style.display = 'none';
+                        }
+                    
+                    
+                    });
+                }
+
+                function postContacts() {
+                    fetch("/POST/contacts", {
+                        method: "POST",
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ 'name': name, 'phone': phone, 'email': email })
+                    }).then(res => {
+                        console.log("Request complete! response:", res);
+                    });
+                }
+
+
+                (function (global) {
+                    var AddressBook = function (name, phone, email) {
+                        return new AddressBook.init(name, phone, email);
+                    };
+
+                    AddressBook.prototype = {
+                        //default functions
+                        data: [
+                            //add data here
+                        ],
+                        searchResults: [
+
+                        ],
+                        addNewContact: function (name, phone, email) {
+                        document.addEventListener('submit', (event) => {
+                            fetch("/POST/contacts", {
+                        method: "POST",
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ 'name': name, 'phone': phone, 'email': email })
+                            }).then(res => {
+                        console.log("Request complete! response:", res);
+                            
+                            });
+                            return this;
+                          })
+                        },
+                        save: function () {
+                            //save to local storage. This isn't hugely necessary
+                            
+                        },
+                        returnAll: function () {
+                            getContacts();
+                        },
+                        displayData: function () {
+                            this.log(this.data);
+                            return this;
+                        },
+                        log: function (data) {
+                            console.log(data);
+                            return this;
+                        },
+                        search: function (searchTerm) {
+                            if (this.data.length) {
+                                for (var i = 0; i < this.data.length; i++) {
+                                    if (this.data[i].name.toLowerCase() == searchTerm.toLowerCase()) {
+                                        console.error(this.data[i]);
+                                        this.searchResults.push(this.data[i]);
+                                    }
+                                }
+
+                                return this.searchResults;
+                            } else {
+                                console.log("There are no results");
+                            }
+                            return this;
+                        },
+                        lastResults: function () {
+                            return this.searchResults;
+                        }
+                    
+                    }
+
+                    AddressBook.init = function (name, phone, email) {
+                        var self = this;
+                        //set up the address book
+                        if (name || phone || email) {
+                            self.addNewContact(name , phone , email);
+                        }
+
+                    }
+
+                    AddressBook.init.prototype = AddressBook.prototype;
+
+                    global.AddressBook = $ab = AddressBook;
+                })(window);
+
+                if (!window.contactList) { //check if we already have a contact list
+                    window.contactList = $ab();
+                }
+
+                var form = document.getElementById('contact');
+                form.addEventListener('submit', function () {
+                    if (!window.contactList) { //check if we already have a contact list
+                        window.contactList = $ab(form.person.value, form.phone.value, form.email.value);
+                    } else {
+                        //saves new values rather than deleting old ones as well
+                        contactList.addNewContact(form.person.value, form.phone.value, form.email.value);
+                    }
+
+                    form.person.value = '';
+                    form.phone.value = '';
+                    form.email.value = '';
+
+                    event.preventDefault();
+                });
+
+                var searchForm = document.getElementById('search');
+                searchForm.addEventListener('submit', function () {
+                    var results;
+                    if (results !== undefined) {
+                        results = null;
+                    }
+                    if (!window.contactList) {
+                        window.contactList = $ab();
+                    } else {
+                        results = contactList.search(searchForm.search.value);
+                    }
+                    document.getElementById('results').innerHTML = '';
+                    if (results.length > 0) {
+
+                        for (var i = 0; i < results.length; i++) {
+                            document.getElementById('results').innerHTML += '<div class="contact-item">Name:' + results[i].name + '<br>Phone:' + results[i].phone + '<br>Email:' + results[i].email + '</div><hr>';
+                        }
+                    } else {
+                        document.getElementById('results').innerHTML += '<div class="contact-item">There are no results for this name</div><hr>';
+                    }
+
+                    //do something with the results
+                    event.preventDefault();
+                });
+
+                document.getElementById('js-show-all').addEventListener('click', function () {
+                    if (window.contactList) { //check if we already have a contact list
+                        document.getElementById('show-panel').innerHTML = '';
+                        var contacts = contactList.returnAll();
+                        console.log(contacts);
+                        if (results.length > 0) {
+                            for (var i = 0; i < results.length; i++) {
+                                document.getElementById('show-panel').innerHTML += '<div class="contact-item">Name:' + contacts[i].name + '<br>Phone:' + contacts[i].phone + '<br>Email:' + contacts[i].email + '</div><hr>';
+                            }
+                        } else {
+                            document.getElementById('show-panel').innerHTML += '<div class="contact-item">You have no contacts. Why not add  a few?</div><hr>';
+                        }
+                    }
+                    document.getElementById('show-panel').style.display = 'block';
+                    document.getElementById('search-panel').style.display = 'none';
+                    document.getElementById('contact-panel').style.display = 'none';
+                });
+
+                document.getElementById('js-search').addEventListener('click', function () {
+                    document.getElementById('show-panel').style.display = 'none';
+                    document.getElementById('search-panel').style.display = 'block';
+                    document.getElementById('contact-panel').style.display = 'none';
+                });
+
+                document.getElementById('js-add-new').addEventListener('click', function () {
+                    document.getElementById('show-panel').style.display = 'none';
+                    document.getElementById('search-panel').style.display = 'none';
+                    document.getElementById('contact-panel').style.display = 'block';
+                });
+
+
+
+
+            </script>
+            <script>
+                function insert(num) {
+                    document.form.textview.value = document.form.textview.value + num;
+                }
+
+                function equal() {
+                    var exp = document.form.textview.value;
+                    if (exp) {
+                        document.form.textview.value = eval(exp);
+                    }
+                }
+
+                function clean() {
+                    document.form.textview.value = "";
+                }
+
+                function del() {
+                    var exp = document.form.textview.value;
+                    document.form.textview.value = exp.substring(0, exp.length - 1);
+                }
+            </script>
+            <script>
+                /*==================== CLOCK ====================*/
+                const hour = document.getElementById('clock-hour'),
+                    minutes = document.getElementById('clock-minutes'),
+                    seconds = document.getElementById('clock-seconds')
+
+                const clock = () => {
+                    let date = new Date()
+
+                    let hh = date.getHours() * 30,
+                        mm = date.getMinutes() * 6,
+                        ss = date.getSeconds() * 6
+
+                    // We add a rotation to the elements
+                    hour.style.transform = `rotateZ(${hh + mm / 12}deg)`
+                    minutes.style.transform = `rotateZ(${mm}deg)`
+                    seconds.style.transform = `rotateZ(${ss}deg)`
+                }
+                setInterval(clock, 1000) // 1000 = 1s
+
+                /*==================== CLOCK & DATE TEXT ====================*/
+                const textHour = document.getElementById('text-hour'),
+                    textMinutes = document.getElementById('text-minutes'),
+                    textAmPm = document.getElementById('text-ampm'),
+                    //   dateWeek = document.getElementById('date-day-week'),
+                    dateDay = document.getElementById('date-day'),
+                    dateMonth = document.getElementById('date-month'),
+                    dateYear = document.getElementById('date-year')
+
+                const clockText = () => {
+                    let date = new Date()
+
+                    let hh = date.getHours(),
+                        ampm,
+                        mm = date.getMinutes(),
+                        day = date.getDate(),
+                        // dayweek = date.getDay(),
+                        month = date.getMonth(),
+                        year = date.getFullYear()
+
+                    // We change the hours from 24 to 12 hours and establish whether it is AM or PM
+                    if (hh >= 12) {
+                        hh = hh - 12
+                        ampm = 'PM'
+                    } else {
+                        ampm = 'AM'
+                    }
+
+                    // We detect when it's 0 AM and transform to 12 AM
+                    if (hh == 0) { hh = 12 }
+
+                    // Show a zero before hours
+                    if (hh < 10) { hh = `0${hh}` }
+
+                    // Show time
+                    textHour.innerHTML = `${hh}:`
+
+                    // Show a zero before the minutes
+                    if (mm < 10) { mm = `0${mm}` }
+
+                    // Show minutes
+                    textMinutes.innerHTML = mm
+
+                    // Show am or pm
+                    textAmPm.innerHTML = ampm
+
+                    // If you want to show the name of the day of the week
+                    // let week = ['Sun', 'Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat']
+
+                    // We get the months of the year and show it
+                    let months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+
+                    // We show the day, the month and the year
+                    dateDay.innerHTML = day
+                    // dateWeek.innerHTML = `${week[dayweek]}`
+                    dateMonth.innerHTML = `${months[month]},`
+                    dateYear.innerHTML = year
+                }
+                setInterval(clockText, 1000) // 1000 = 1s
+
+                /*==================== DARK/LIGHT THEME ====================*/
+                const themeButton = document.getElementById('theme-button')
+                const darkTheme = 'dark-theme'
+                const iconTheme = 'bxs-sun'
+
+                // Previously selected topic (if user selected)
+                const selectedTheme = localStorage.getItem('selected-theme')
+                const selectedIcon = localStorage.getItem('selected-icon')
+
+                // We obtain the current theme that the interface has by validating the dark-theme class
+                const getCurrentTheme = () => document.body.classList.contains(darkTheme) ? 'dark' : 'light'
+                const getCurrentIcon = () => themeButton.classList.contains(iconTheme) ? 'bxs-moon' : 'bxs-sun'
+
+                // We validate if the user previously chose a topic
+                if (selectedTheme) {
+                    // If the validation is fulfilled, we ask what the issue was to know if we activated or deactivated the dark
+                    document.body.classList[selectedTheme === 'dark' ? 'add' : 'remove'](darkTheme)
+                    themeButton.classList[selectedIcon === 'bxs-moon' ? 'add' : 'remove'](iconTheme)
+                }
+
+                // Activate / deactivate the theme manually with the button
+                themeButton.addEventListener('click', () => {
+                    // Add or remove the dark / icon theme
+                    document.body.classList.toggle(darkTheme)
+                    themeButton.classList.toggle(iconTheme)
+                    // We save the theme and the current icon that the user chose
+                    localStorage.setItem('selected-theme', getCurrentTheme())
+                    localStorage.setItem('selected-icon', getCurrentIcon())
+                })
+
+            </script>
+            <script>
+
+            </script>
+            <script>
+
+
+                fetch('https://api.weatherapi.com/v1/' +
+                    'current.json?key=0867912d5af94bcc85d144614221202&' +
+                    'q=Ljubljana&aqi=no' +
+                    'aqi=no')
+                    .then(response => response.json())
+                    .then(results => {
+                        $('.weather').append(results.current.condition.text);
+                        $('.temp').append(results.current.temp_c + "°C");
+                        $('.icon').attr("src", results.current.condition.icon);
+                    });
+
+            </script>
+
+            <script type="text/javascript">
+
+                const notesContainer = document.getElementById("app");
+                const addNoteButton = notesContainer.querySelector(".add-note");
+
+
+
+                addNoteButton.addEventListener("click", () => addNote());
+
+                function getNotes() {
+                    //return JSON.parse(localStorage.getItem("stickynotes-notes") || "[]");
+                    fetch("/GET/notes")
+                        .then(response => response.json())
+                        .catch((err) => {
+                            // ce je error
+                        })
+                        .then(results => {
+                            /*results.forEach(note => {
+                                const noteElement = createNoteElement(note.title, note.notes);
+                                notesContainer.insertBefore(noteElement, addNoteButton);
+                            });*/
+                            for (let index = 0; index < results.length; index++) {
+                                const noteElement = createNoteElement(results[index].title, results[index].notes);
+                                notesContainer.insertBefore(noteElement, addNoteButton);
+                            }
+                        });
+                }
+
+
+
+                function createNoteElement(id, content) {
+                    const element = document.createElement("textarea");
+                    element.addEventListener('focusout', (event) => {
+                        var zapisek = event.target.value;
+                        console.log(id);
+                        fetch("/POST/notes", {
+                            method: "POST",
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ 'note': zapisek, 'title': id, 'date': new Date() })
+                        }).then(res => {
+                            console.log("Request complete! response:", res);
+                        });
+                    });
+                    element.classList.add("note");
+                    element.value = content;
+                    element.placeholder = "Empty Sticky Note";
+
+                    element.addEventListener("change", () => {
+                        updateNote(id, element.value);
+                    });
+
+                    element.addEventListener("dblclick", () => {
+                        const doDelete = confirm(
+                            "Are you sure you wish to delete this sticky note?"
+                        );
+
+                        if (doDelete) {
+                            deleteNote(id, element);
+                        }
+                    });
+
+                    return element;
+                }
+
+                function addNote() {
+                    var count = document.querySelectorAll(".note");
+                    if ((count.length < 7)) {
+                        const notes = getNotes();
+                        const noteObject = {
+                            id: Math.floor(Math.random() * 100000),
+                            content: ""
+                        };
+
+                        const noteElement = createNoteElement(noteObject.id, noteObject.content);
+                        notesContainer.insertBefore(noteElement, addNoteButton);
+
+
+                        notes.push(noteObject);
+                        saveNotes(notes);
+                    } else {
+                        console.log(err);
+                    }
+
+                }
+
+                function updateNote(id, newContent) {
+                    const notes = getNotes();
+                    const targetNote = notes.filter((note) => note.id == id)[0];
+
+                    targetNote.content = newContent;
+                    saveNotes(notes);
+                }
+
+                function deleteNote(id, element) {
+                    const notes = getNotes().filter((note) => note.id != id);
+
+                    saveNotes(notes);
+                    notesContainer.removeChild(element);
+                }
+                getNotes();
+            </script>
+</body>
+
+</html>
